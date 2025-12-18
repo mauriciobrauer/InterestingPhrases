@@ -1,5 +1,15 @@
 {
     "buildCommand": "npm run build",
     "outputDirectory": "dist",
-    "devCommand": "npm run dev:client"
+    "devCommand": "npm run dev:client",
+    "rewrites": [
+        {
+            "source": "/api/phrases",
+            "destination": "/api/phrases"
+        },
+        {
+            "source": "/api/phrases/:id",
+            "destination": "/api/phrases/:id"
+        }
+    ]
 }

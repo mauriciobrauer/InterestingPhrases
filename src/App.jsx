@@ -3,7 +3,9 @@ import { Plus, Trash2, Edit2, Calendar, Save, X } from 'lucide-react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/phrases';
+const API_URL = import.meta.env.VITE_API_URL || (
+  import.meta.env.DEV ? 'http://localhost:3001/api/phrases' : '/api/phrases'
+);
 
 function App() {
   const [phrases, setPhrases] = useState([]);
