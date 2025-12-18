@@ -13,7 +13,29 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 
-app.use(cors());
+// Configure CORS with Private Network Access support
+app.use(cors({
+    origin: true, // Allow all origins in development
+    credentials: true,
+}));
+
+// Add Private Network Access headers for Chrome
+app.use((req, res, next) => {
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+        res.setHeader('Access-Control-Allow-Private-Network', 'true');
+        res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        return res.status(204).end();
+    }
+
+    // Add headers for all requests
+    res.setHeader('Access-Control-Allow-Private-Network', 'true');
+    next();
+});
+
 app.use(express.json());
 
 // --- Helper to format Notion Page to our App interface ---
